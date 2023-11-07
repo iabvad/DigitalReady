@@ -1,3 +1,3 @@
 # DigitalReady
 
-hello 
+first message
