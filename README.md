@@ -14,6 +14,7 @@ The goal is to get a hand with a value closer to 21 than the other players witho
 	3. To begin, the player must first input the number of players that would be present.
  
 **Play**
+
 	1. The first player gets randomly chosen an card.
 	2. The player can choose to "hit" (take another card) or "stand" (take no more cards). The goal is to get as close to 21 without going over.
 	3. If the player goes over 21, they "bust" and immediately lose.
