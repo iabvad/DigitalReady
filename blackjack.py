@@ -1,4 +1,4 @@
-import sys, random
+import sys, random, pyfiglet
 
 # The main idea of the Class below allows us to form the Basics of the whole code and how we will be able 
 # to tell the difference between the values, players and face (Which will differ based on face).
@@ -46,7 +46,7 @@ def go(num_players):
     # Initialize players' hands
 
     hands = [[] for _ in range(players)]
-
+    worl = [[] for _ in range(players)]
     # Initial deal
     for j in range(players):
         hands[j].append(pick_a_card())
@@ -54,16 +54,20 @@ def go(num_players):
     # Game loop
     for i in range(players):
         while True:
-            print(f"Player {i + 1} hand: {[str(card) for card in hands[i]]}")
+            print(f"Player {i + 1} has just drawn a {hands[i][-1]}")
             score = calculate_score(hands[i])
             print(f"Player {i + 1} score: {score}")
 
             if score == 21:
                 print(f"Player {i + 1} has a Blackjack!")
+                result1 = pyfiglet.figlet_format(f"Player {i + 1} Wins") 
+                print(result1) 
                 break
 
             if score > 21:
                 print(f"Player {i + 1} busts with a score of {score}!")
+                result2 = pyfiglet.figlet_format(f"Player {i + 1} Loses") 
+                print(result2) 
                 break
 
             choice = input("Player " + str(i + 1) + ", hit or stand? ").lower()
