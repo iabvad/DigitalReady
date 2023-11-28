@@ -10,7 +10,7 @@ class Card:
     def __str__(self):
         return f"{self.rank} of {self.suit}"
 
-# function which draws the card
+# 
 def pick_a_card():
     suit = random.choice(["♦️", "♠️", "♥️", "♣️"])
     rank = random.choice([2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace"])
@@ -30,9 +30,9 @@ def calculate_score(cards):
         elif card.rank == "Ace":
             ace_count += 1
             score += 11
+        else:
+            print("Invalid card rank.")
 
-    #determeines the value of ace card, if the ace will cause the score to exceed 21,
-    #ace will only add one to score
     while ace_count > 0 and score > 21:
         score -= 10
         ace_count -= 1
@@ -43,7 +43,8 @@ def go(num_players):
     players = int(num_players)
     print("Number of Players: " + str(players))
 
-    # Initialize players' hands/
+    # Initialize players' hands
+
     hands = [[] for _ in range(players)]
 
     # Initial deal
