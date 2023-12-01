@@ -24,10 +24,10 @@ class Player1(pygame.sprite.Sprite):
     def update(self, keys):
         if keys[K_w]:
             if(self.rect.y > 0):
-                self.rect.move_ip(0,-5)
+                self.rect.move_ip(0,-9)
         if keys[K_s]:
             if(self.rect.y < 500):
-                self.rect.move_ip(0,5)
+                self.rect.move_ip(0,9)
 
 
 # Player2 uses W and S keys
@@ -43,13 +43,14 @@ class Player2(Player1):
     def update(self, keys):
         if keys[K_UP]:
             if(self.rect.y > 0):
-                self.rect.move_ip(0,-5)
+                self.rect.move_ip(0,-9)
         if keys[K_DOWN]:
             if(self.rect.y < 500):
-                self.rect.move_ip(0,5)
+                self.rect.move_ip(0,9)
 
 
 directions = [-1,1]
+ballspeeds = [3, -3]
 score = [0,0]
 scoreincrease = 1
 
@@ -61,8 +62,8 @@ class Ball(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect()
         self.rect.x =  450
         self.rect.y = 250
-        self.movementx = 3
-        self.movementy = 3
+        self.movementx = random.choice(ballspeeds)
+        self.movementy = random.choice(ballspeeds)
 
 
     def update(self) -> None:
@@ -75,11 +76,15 @@ class Ball(pygame.sprite.Sprite):
             score[1] += scoreincrease
             self.rect.x = 450
             self.rect.y = 250
+            self.movementx = random.choice(ballspeeds)
+            self.surf.fill((255,255,255))
 
         elif(self.rect.x > 889):
             score[0] += scoreincrease
             self.rect.x = 450
             self.rect.y = 250
+            self.movementx = random.choice(ballspeeds)
+            self.surf.fill((255,255,255))
         else:
             self.movementy = self.movementy * -1
             self.rect.x += self.movementx
@@ -125,8 +130,13 @@ while running:
     # Call update() on the ball here
     ball.update()
     if pygame.sprite.spritecollideany(ball, all_sprites):
-        ball.movementy *= random.choice(directions)
         ball.movementx *= -1
+        if ball.movementx > 0:
+            ball.movementx += 1
+        else:
+            ball.movementx -= 1
+        
+        ball.movementy *= random.choice(directions)
         if pygame.sprite.collide_rect(ball, david):
             ball.surf.fill((255,0,0))
         else: 
@@ -140,6 +150,7 @@ while running:
     screen.blit(david.surf, david.rect)
     screen.blit(bryce.surf, bryce.rect)
     screen.blit(ball.surf, ball.rect)
+    # Gives our text font as well as initizes 
     font = pygame.font.Font("arial.ttf", 32)
     score_text = font.render(f'Score: {score[0]} to {score[1]}', True, (255, 255, 255))
     screen.blit(score_text, (350, 10))
