@@ -54,6 +54,7 @@ ballspeeds = [3, -3]
 score = [0,0]
 scoreincrease = 1
 
+#ball class
 class Ball(pygame.sprite.Sprite):
     def __init__(self) -> None:
         super().__init__()
@@ -65,13 +66,14 @@ class Ball(pygame.sprite.Sprite):
         self.movementx = random.choice(ballspeeds)
         self.movementy = random.choice(ballspeeds)
 
-
+#changes the balls position, speed, and scores list
     def update(self) -> None:
         if(self.rect.y > 0 and self.rect.y < 590):
         
             self.rect.x += self.movementx
             self.rect.y += self.movementy
 
+        #if player two wins
         elif (self.rect.x < 11):
             score[1] += scoreincrease
             self.rect.x = 450
@@ -79,6 +81,7 @@ class Ball(pygame.sprite.Sprite):
             self.movementx = random.choice(ballspeeds)
             self.surf.fill((255,255,255))
 
+        #if player one wins
         elif(self.rect.x > 889):
             score[0] += scoreincrease
             self.rect.x = 450
@@ -86,6 +89,7 @@ class Ball(pygame.sprite.Sprite):
             self.movementx = random.choice(ballspeeds)
             self.surf.fill((255,255,255))
         else:
+            #changes direction fo the ball
             self.movementy = self.movementy * -1
             self.rect.x += self.movementx
             self.rect.y += self.movementy
