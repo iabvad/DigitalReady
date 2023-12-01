@@ -10,9 +10,9 @@ to move up and down. In order to exit the game, the user will have to use the ES
 **Coding Methods**
 
 We wanted to keep in mind three key things when designing Pong: the objects in the game, the score and the overall presentation of game. 
-  1. We used the inheritance of classes to create new subclasses that would describe the Players and the Ball in the game, utilizing this idea to create fluid interactions with our code.
-  2.  The score board which was programmed with pygame functions gives the game a point to be played and allows the players to compare their scores and who wins.
-  3.  By using RGB codes and pygame functions, we personalized the game to our liking, creating a clean and sleek GUI to look at.
+  1. We used the inheritance of classes to create new subclasses that would describe the Players and the Ball in the game, utilizing this idea to create fluid interactions with our code. We created a list which determines the direction of the ball after collision with an player. By using the random mondule, we granted the ball randomized movement across the screen.
+  3.  The score board which was programmed with pygame functions gives the game a point to be played and allows the players to compare their scores and who wins.
+  4.  By using RGB codes and pygame functions, we personalized the game to our liking, creating a clean and sleek GUI to look at. We personalized the ball to switch RGB values of the ball each time there is an collision with a player. Based on what player it collided in, the color will change to its color.
 
  **Final Thoughts**
 
