@@ -24,10 +24,10 @@ class Player1(pygame.sprite.Sprite):
     def update(self, keys):
         if keys[K_w]:
             if(self.rect.y > 0):
-                self.rect.move_ip(0,-1)
+                self.rect.move_ip(0,-5)
         if keys[K_s]:
             if(self.rect.y < 500):
-                self.rect.move_ip(0,1)
+                self.rect.move_ip(0,5)
 
 
 # Player2 uses W and S keys
@@ -43,13 +43,13 @@ class Player2(Player1):
     def update(self, keys):
         if keys[K_UP]:
             if(self.rect.y > 0):
-                self.rect.move_ip(0,-1)
+                self.rect.move_ip(0,-5)
         if keys[K_DOWN]:
             if(self.rect.y < 500):
-                self.rect.move_ip(0,1)
+                self.rect.move_ip(0,5)
 
 
-
+directions = [-3,3]
 class Ball(pygame.sprite.Sprite):
     def __init__(self) -> None:
         super().__init__()
@@ -58,11 +58,24 @@ class Ball(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect()
         self.rect.x =  450
         self.rect.y = 250
+        self.movementx = random.choice(directions)
+        self.movementy = random.choice(directions)
+
 
     def update(self) -> None:
-        pass
+        if(self.rect.y > 0 and self.rect.y < 590):
+        
+            self.rect.x += self.movementx
+            self.rect.y += self.movementy
+        else:
+            self.movementy = self.movementy * -1
+            self.rect.x += self.movementx
+            self.rect.y += self.movementy
+            
 
+        
 
+clock = pygame.time.Clock()
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])     # (x, y)
 
 # Create objects for player1, player2, and the ball here
@@ -78,6 +91,7 @@ all_sprites.add(bryce)
 
 running = True
 while running:
+    clock.tick(80)
     for event in pygame.event.get():
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
@@ -85,8 +99,6 @@ while running:
         elif event.type == QUIT:
             running = False
 
-    if pygame.sprite.spritecollideany(ball, all_sprites):
-        pass
     # Update positions
     pressed_keys = pygame.key.get_pressed()
     david.update(pressed_keys)
@@ -97,7 +109,10 @@ while running:
     for player in players:
         player.update(pressed_keys)
     # Call update() on the ball here
-
+    ball.update()
+    if pygame.sprite.spritecollideany(ball, all_sprites):
+        ball.movementy *= -1
+        ball.movementx *= -1
     # Render
     screen.fill((0, 0, 0))
     # Use blit() to draw each sprite on the screen here
