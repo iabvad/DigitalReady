@@ -1,7 +1,7 @@
-import sys, random, pyfiglet
+import sys
+import random
+import pyfiglet
 
-# The main idea of the Class below allows us to form the Basics of the whole code and how we will be able 
-# to tell the difference between the values, players and face (Which will differ based on face).
 class Card:
     def __init__(self, suit: str, rank: str):
         self.suit = suit
@@ -10,18 +10,15 @@ class Card:
     def __str__(self):
         return f"{self.rank} of {self.suit}"
 
-# 
 def pick_a_card():
     suit = random.choice(["♦️", "♠️", "♥️", "♣️"])
     rank = random.choice([2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace"])
     return Card(suit, rank)
 
-# function that sets the players score after evey action
 def calculate_score(cards):
     score = 0
     ace_count = 0
 
-    # sets the values for each card
     for card in cards:
         if isinstance(card.rank, int):
             score += card.rank
@@ -39,44 +36,98 @@ def calculate_score(cards):
 
     return score
 
+def print_player_status(player_num, card):
+    print(f"Player {player_num} has just drawn a {card}")
+
+def print_player_score(player_num, score):
+    print(f"Player {player_num} score: {score}")
+
+def input_player_choice(player_num):
+    return input(f"Player {player_num}, hit or stand? ").lower()
+
+def print_winner_message(winners):
+    if len(winners) > 1:
+        string1 = ', '.join(map(str, winners))
+        wins = pyfiglet.figlet_format(f"Players {string1} Have Won")
+    else:
+        wins = pyfiglet.figlet_format(f"Player {winners[0]} Has Won")
+
+    print(wins)
+
+def print_loser_message(losers):
+    if len(losers) > 1:
+        string2 = ', '.join(map(str, losers))
+        losses = pyfiglet.figlet_format(f"Players {string2} Have Lost")
+    else:
+        string2 = ' '.join(map(str, losers))
+        losses = pyfiglet.figlet_format(f"Player {string2} Has Lost")
+
+    print(losses)
+
+def determine_winner(stand_players, stand_values, losers):
+    if len(stand_players) >= 1:
+        standnum = stand_players[0]
+        largest = stand_values[0]
+        for i in range(1, len(stand_values)):
+            if stand_values[i] > largest:
+                losers.append(stand_players[i])
+                largest = stand_values[i]
+                standnum = stand_players[i]
+            else:
+                losers.append(stand_players[i])
+
+        wins = pyfiglet.figlet_format(f"Player {standnum} Has Won")
+        print(wins)
+
 def go(num_players):
     players = int(num_players)
     print("Number of Players: " + str(players))
 
-    # Initialize players' hands
+    winners = []
+    losers = []
 
     hands = [[] for _ in range(players)]
-    worl = [[] for _ in range(players)]
-    # Initial deal
+
     for j in range(players):
         hands[j].append(pick_a_card())
 
-    # Game loop
+    stand_values = []
+    stand_players = []
+
     for i in range(players):
         while True:
-            print(f"Player {i + 1} has just drawn a {hands[i][-1]}")
+            pnum = i + 1
+            print_player_status(pnum, hands[i][-1])
             score = calculate_score(hands[i])
-            print(f"Player {i + 1} score: {score}")
+            print_player_score(pnum, score)
 
             if score == 21:
-                print(f"Player {i + 1} has a Blackjack!")
-                result1 = pyfiglet.figlet_format(f"Player {i + 1} Wins") 
-                print(result1) 
+                print(f"Player {pnum} has a Blackjack!")
+                winners.append(pnum)
                 break
 
             if score > 21:
-                print(f"Player {i + 1} busts with a score of {score}!")
-                result2 = pyfiglet.figlet_format(f"Player {i + 1} Loses") 
-                print(result2) 
+                print(f"Player {pnum} busts with a score of {score}!")
+                losers.append(pnum)
                 break
 
-            choice = input("Player " + str(i + 1) + ", hit or stand? ").lower()
+            choice = input_player_choice(pnum)
             if choice == "hit":
                 hands[i].append(pick_a_card())
             elif choice == "stand":
+                stand_players.append(pnum)
+                stand_values.append(score)
                 break
             else:
                 print("Invalid choice. Please enter 'hit' or 'stand'.")
+
+    if len(winners) > 0:
+        print_winner_message(winners)
+    else:
+        determine_winner(stand_players, stand_values, losers)
+
+    if len(losers) > 0:
+        print_loser_message(losers)
 
 if __name__ == "__main__":
     go(int(sys.argv[1]))
