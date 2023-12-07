@@ -2,6 +2,7 @@ import sys
 import random
 import pyfiglet
 
+#Define a playing card with a specified suit and rank.
 class Card:
     def __init__(self, suit: str, rank: str):
         self.suit = suit
@@ -10,11 +11,13 @@ class Card:
     def __str__(self):
         return f"{self.rank} of {self.suit}"
 
+#Generates a random playing card
 def pick_a_card():
     suit = random.choice(["♦️", "♠️", "♥️", "♣️"])
     rank = random.choice([2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace"])
     return Card(suit, rank)
 
+#Calculates the score after card has been drawn
 def calculate_score(cards):
     score = 0
     ace_count = 0
@@ -36,15 +39,19 @@ def calculate_score(cards):
 
     return score
 
+#Displays what card has just been drawn
 def print_player_status(player_num, card):
     print(f"Player {player_num} has just drawn a {card}")
 
+#Displays the combined values of all cards drawn
 def print_player_score(player_num, score):
     print(f"Player {player_num} score: {score}")
 
+#Prompts the player to choose between "hit" or "stand"
 def input_player_choice(player_num):
     return input(f"Player {player_num}, hit or stand? ").lower()
 
+#Display a message announcing the winner(s) of the game
 def print_winner_message(winners):
     if len(winners) > 1:
         string1 = ', '.join(map(str, winners))
@@ -54,6 +61,7 @@ def print_winner_message(winners):
 
     print(wins)
 
+#Display a message announcing the loser(s) of the game.
 def print_loser_message(losers):
     if len(losers) > 1:
         string2 = ', '.join(map(str, losers))
@@ -64,6 +72,7 @@ def print_loser_message(losers):
 
     print(losses)
 
+#Determine the winner among players who chose to stand
 def determine_winner(stand_players, stand_values, losers):
     if len(stand_players) >= 1:
         standnum = stand_players[0]
@@ -79,6 +88,7 @@ def determine_winner(stand_players, stand_values, losers):
         wins = pyfiglet.figlet_format(f"Player {standnum} Has Won")
         print(wins)
 
+#Execute the main logic of the card game, including player turns, scoring, and determining the winner
 def go(num_players):
     players = int(num_players)
     print("Number of Players: " + str(players))
