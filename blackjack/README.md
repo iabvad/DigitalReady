@@ -2,6 +2,10 @@
 
 David Bai and Bryce Tee
 
+**Dependencies**
+
+We used PyFiglet made by Christopher Jones which allows us to create 2d images of our outputs via terminal. This is a required dependency which will have to be downloaded in Visual Studios. 
+
 **How to Play Blackjack**
 
 Blackjack is a card game played between a dealer and one or more players. Our Blackjack does not have an Dealer and is only played with a group of players who will compare their scores.
